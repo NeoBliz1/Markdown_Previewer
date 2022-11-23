@@ -1,0 +1,46 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+@debug "sass debug is working";
+
+$box-shadow-sm:   0 .125rem .25rem rgba($blue, .75);
+
+@import "~bootstrap/scss/bootstrap";
+
+//@import url("https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css");
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.number,
+.editorLineNumber {
+  opacity: 0.3;
+  color: #cccccc !important;
+  text-align: right;
+  width: 40px;
+  font-weight: 100;
+}
+
+img {
+  display: block;
+  max-width: 90%;
+  margin: 2rem auto;
+}
+
+h1 {
+  @include font-size(2.5rem);
+}
+
+/*@include media-breakpoint-up(sm) {
+  body {
+    background-color: lightcoral;
+  }  
+}*/
+
+
+//@include media-breakpoint-up(md) { ... }
+//@include media-breakpoint-up(lg) { ... }
+//@include media-breakpoint-up(xl) { ... }
