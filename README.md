@@ -1,2 +1,2 @@
 # Markdown_Previewer
-Created with CodeSandbox
+Training project by freeCodeCamp.org
