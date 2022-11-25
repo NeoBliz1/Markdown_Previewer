@@ -34,6 +34,10 @@ h1 {
   @include font-size(2.5rem);
 }
 
+.headerPanel {
+  background-color: lightblue;
+}
+
 /*@include media-breakpoint-up(sm) {
   body {
     background-color: lightcoral;

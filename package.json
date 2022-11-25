@@ -1,7 +1,7 @@
 {
   "name": "markdown-previewer",
   "version": "1.0.0",
-  "homepage": "https://neobliz1.github.io/rand0m_qu0te_machine/",
+  "homepage": "https://neobliz1.github.io/Markdown_Previewer/",
   "description": "",
   "keywords": [],
   "main": "src/index.js",
@@ -36,5 +36,10 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "eslint": "^8.28.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-react": "^7.31.11"
+  }
 }
