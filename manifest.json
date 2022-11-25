@@ -1,0 +1,8 @@
+{
+	"short_name": "Neobliz1 Markdown previewr project",
+	"name": "Neobliz1's freeCodeCamp project 'Markdown Previewer'",
+	"start_url": ".",
+	"display": "standalone",
+	"theme_color": "#000000",
+	"background_color": "#ffffff"
+}
