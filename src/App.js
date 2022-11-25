@@ -12,7 +12,8 @@ import './styles.scss';
 
 // set options for marked js parser
 const renderer = new marked.Renderer();
-renderer.code = function (code, lang) {
+renderer.code = function (code) {
+	const lang = 'javascript';
 	const highlitedCode = this.options.highlight(code, lang);
 
 	if (!lang) {
@@ -27,6 +28,7 @@ marked.setOptions({
 	renderer,
 	highlight: function (code, lang) {
 		try {
+			// console.log(lang);
 			return Prism.highlight(code, Prism.languages[lang], lang)
 				.split('\n')
 				.map(
@@ -35,10 +37,11 @@ marked.setOptions({
 				)
 				.join('\n');
 		} catch {
-			// console.log("catch");
+			// console.log('catch');
 			return code;
 		}
 	},
+	breaks: true,
 });
 
 const Editor = (props) => {
@@ -60,7 +63,7 @@ const Editor = (props) => {
 			</Card.Header>
 			<textarea
 				id="editor"
-				className="h-100"
+				className={editorMaximize ? 'h-100' : ''}
 				draggable="true"
 				rows="10"
 				onChange={(e) => setCode(e.target.value)}
@@ -157,26 +160,6 @@ And here. | Okay. | I think we get it.
 	const [editorMaximize, setEditorMaximize] = useState(false);
 	const [previwerMaximize, setPreviwerMaximize] = useState(false);
 
-	// toggle state function
-	const toggleState = (e) => {
-		console.log(e.target);
-		// return state ? false : true;
-	};
-
-	// adds freeCodeCamp check bundle script
-	// useEffect(() => {
-	// 	const scriptFCCBundle = document.createElement('script');
-	// 	scriptFCCBundle.setAttribute('type', 'text/javascript');
-	// 	scriptFCCBundle.src =
-	// 		'https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js';
-	// 	// scriptFCCBundle.setAttribute('crossorigin', 'anonymous');
-	// 	// scriptFCCBundle.setAttribute('referrerpolicy', 'no-referrer');
-	// 	document.body.appendChild(scriptFCCBundle);
-	// 	return () => {
-	// 		document.body.removeChild(scriptFCCBundle);
-	// 	};
-	// }, []);
-
 	return (
 		<Container
 			fluid
@@ -196,7 +179,6 @@ And here. | Okay. | I think we get it.
 						setCode={setCode}
 						editorMaximize={editorMaximize}
 						setEditorMaximize={setEditorMaximize}
-						toggleStateFunc={toggleState}
 					/>
 				</Col>
 				<Col
