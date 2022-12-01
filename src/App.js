@@ -1,116 +1,117 @@
-import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
-import DOMPurify from "dompurify";
-import marked from "marked";
-import Prism from "prismjs";
+import React, { useState } from 'react';
+import { Container, Row, Col, Card } from 'react-bootstrap';
+import DOMPurify from 'dompurify';
+import marked from 'marked';
+import Prism from 'prismjs';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMinimize, faMaximize } from "@fortawesome/free-solid-svg-icons";
-import { faFreeCodeCamp } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMinimize, faMaximize } from '@fortawesome/free-solid-svg-icons';
+import { faFreeCodeCamp } from '@fortawesome/free-brands-svg-icons';
 
-import "./styles.scss";
+import './styles.scss';
 
-//set options for marked js parser
+// set options for marked js parser
 const renderer = new marked.Renderer();
-renderer.code = function (code, lang) {
-  const highlitedCode = this.options.highlight(code, lang);
+renderer.code = function (code) {
+	const lang = 'javascript';
+	const highlitedCode = this.options.highlight(code, lang);
 
-  if (!lang) {
-    return `<pre><code>${code}</code></pre>`;
-  }
+	if (!lang) {
+		return `<pre><code>${code}</code></pre>`;
+	}
 
-  var langClass = "language-" + lang;
-  return `<pre class="${langClass}"><code class="${langClass}">${highlitedCode}</code></pre>`;
+	const langClass = 'language-' + lang;
+	return `<pre class="${langClass}"><code class="${langClass}">${highlitedCode}</code></pre>`;
 };
 
 marked.setOptions({
-  renderer,
-  highlight: function (code, lang) {
-    try {
-      return Prism.highlight(code, Prism.languages[lang], lang)
-        .split("\n")
-        .map(
-          (line, i) =>
-            `<span class='editorLineNumber'>${i + 1} | </span>${line}`
-        )
-        .join("\n");
-    } catch {
-      // console.log("catch");
-      return code;
-    }
-  },
+	renderer,
+	highlight: function (code, lang) {
+		try {
+			// console.log(lang);
+			return Prism.highlight(code, Prism.languages[lang], lang)
+				.split('\n')
+				.map(
+					(line, i) =>
+						`<span class='editorLineNumber'>${i + 1} | </span>${line}`,
+				)
+				.join('\n');
+		} catch {
+			// console.log('catch');
+			return code;
+		}
+	},
+	breaks: true,
 });
 
 const Editor = (props) => {
-  const { code, setCode, editorMaximize, setEditorMaximize } = props;
-  return (
-    <Card className={`shadow-sm ${editorMaximize && "vh-100"}`}>
-      <Card.Header className="shadow-sm">
-        <FontAwesomeIcon className="me-1" icon={faFreeCodeCamp} />
-        Editor
-        <div
-          className="me-1 float-end "
-          style={{ cursor: "pointer" }}
-          onClick={() => {
-            editorMaximize ? setEditorMaximize(false) : setEditorMaximize(true);
-            console.log(editorMaximize);
-          }}
-        >
-          <FontAwesomeIcon icon={editorMaximize ? faMinimize : faMaximize} />
-        </div>
-      </Card.Header>
-      <textarea
-        id="editor"
-        className="h-100"
-        rows="10"
-        onChange={(e) => setCode(e.target.value)}
-        value={code}
-      ></textarea>
-    </Card>
-  );
+	const { code, setCode, editorMaximize, setEditorMaximize } = props;
+	return (
+		<Card className={`shadow-sm ${editorMaximize && 'vh-100'}`}>
+			<Card.Header className="shadow-sm headerPanel">
+				<FontAwesomeIcon className="me-1" icon={faFreeCodeCamp} />
+				Editor
+				<div
+					className="me-1 float-end "
+					style={{ cursor: 'pointer' }}
+					onClick={() => {
+						editorMaximize ? setEditorMaximize(false) : setEditorMaximize(true);
+						console.log(editorMaximize);
+					}}>
+					<FontAwesomeIcon icon={editorMaximize ? faMinimize : faMaximize} />
+				</div>
+			</Card.Header>
+			<textarea
+				id="editor"
+				className={editorMaximize ? 'h-100' : ''}
+				draggable="true"
+				rows="10"
+				onChange={(e) => setCode(e.target.value)}
+				value={code}></textarea>
+		</Card>
+	);
 };
 
 const Previewer = (props) => {
-  const { code, previwerMaximize, setPreviwerMaximize } = props;
+	const { code, previwerMaximize, setPreviwerMaximize } = props;
 
-  const getMarkdownText = () => {
-    const rawMarkup = marked.parse(code);
-    let cleanMarkup = DOMPurify.sanitize(rawMarkup, {
-      USE_PROFILES: { html: true },
-    });
-    return { __html: cleanMarkup };
-  };
+	const getMarkdownText = () => {
+		const rawMarkup = marked.parse(code);
+		const cleanMarkup = DOMPurify.sanitize(rawMarkup, {
+			USE_PROFILES: { html: true },
+		});
+		return { __html: cleanMarkup };
+	};
 
-  return (
-    <Card className="shadow-sm">
-      <Card.Header className="shadow-sm">
-        <FontAwesomeIcon icon={faFreeCodeCamp} />
-        Previewer
-        <div
-          className="me-1 float-end"
-          style={{ cursor: "pointer" }}
-          onClick={() => {
-            previwerMaximize
-              ? setPreviwerMaximize(false)
-              : setPreviwerMaximize(true);
-            console.log(previwerMaximize);
-          }}
-        >
-          <FontAwesomeIcon
-            className="me-1 float-end"
-            icon={previwerMaximize ? faMinimize : faMaximize}
-          />
-        </div>
-      </Card.Header>
-      <Card.Body>
-        <div id="preview" dangerouslySetInnerHTML={getMarkdownText()} />
-      </Card.Body>
-    </Card>
-  );
+	return (
+		<Card className="shadow-sm">
+			<Card.Header className="shadow-sm headerPanel">
+				<FontAwesomeIcon icon={faFreeCodeCamp} />
+				Previewer
+				<div
+					className="me-1 float-end"
+					style={{ cursor: 'pointer' }}
+					onClick={() => {
+						previwerMaximize
+							? setPreviwerMaximize(false)
+							: setPreviwerMaximize(true);
+						console.log(previwerMaximize);
+					}}>
+					<FontAwesomeIcon
+						className="me-1 float-end"
+						icon={previwerMaximize ? faMinimize : faMaximize}
+					/>
+				</div>
+			</Card.Header>
+			<Card.Body>
+				<div id="preview" dangerouslySetInnerHTML={getMarkdownText()} />
+			</Card.Body>
+		</Card>
+	);
 };
 
 const App = () => {
-  const placeholder = `# Welcome to my React Markdown Previewer!
+	const placeholder = `# Welcome to my React Markdown Previewer!
 
 ## This is a sub-heading...
 ### And here's some other cool stuff:
@@ -155,60 +156,46 @@ And here. | Okay. | I think we get it.
 ![freeCodeCamp Logo](https://cdn.freecodecamp.org/testable-projects-fcc/images/fcc_secondary.svg)
 `;
 
-  const [code, setCode] = useState(placeholder);
-  const [editorMaximize, setEditorMaximize] = useState(false);
-  const [previwerMaximize, setPreviwerMaximize] = useState(false);
+	const [code, setCode] = useState(placeholder);
+	const [editorMaximize, setEditorMaximize] = useState(false);
+	const [previwerMaximize, setPreviwerMaximize] = useState(false);
 
-  //toggle state function
-  const toggleState = (e) => {
-    console.log(e.target);
-    //return state ? false : true;
-  };
-
-  // useEffect(() => {
-  //   console.log(`123 ${editorMaximize}`);
-  // }, [editorMaximize]);
-
-  return (
-    <Container
-      fluid
-      className="h-100"
-      style={{
-        backgroundColor: "aliceblue",
-      }}
-    >
-      <Row className="px-5 justify-content-center">
-        <Col
-          className={`my-3 ${previwerMaximize && "d-none"}`}
-          sm={10}
-          md={10}
-          lg={10}
-          xl={8}
-        >
-          <Editor
-            code={code}
-            setCode={setCode}
-            editorMaximize={editorMaximize}
-            setEditorMaximize={setEditorMaximize}
-            toggleStateFunc={toggleState}
-          />
-        </Col>
-        <Col
-          className={`mb-3 ${editorMaximize && "d-none"}`}
-          sm={12}
-          md={12}
-          lg={12}
-          xl={10}
-        >
-          <Previewer
-            code={code}
-            previwerMaximize={previwerMaximize}
-            setPreviwerMaximize={setPreviwerMaximize}
-          />
-        </Col>
-      </Row>
-    </Container>
-  );
+	return (
+		<Container
+			fluid
+			className="h-100"
+			style={{
+				backgroundColor: 'aliceblue',
+			}}>
+			<Row className="px-5 justify-content-center">
+				<Col
+					className={`my-3 ${previwerMaximize && 'd-none'}`}
+					sm={10}
+					md={10}
+					lg={10}
+					xl={8}>
+					<Editor
+						code={code}
+						setCode={setCode}
+						editorMaximize={editorMaximize}
+						setEditorMaximize={setEditorMaximize}
+					/>
+				</Col>
+				<Col
+					className={`mb-3 ${editorMaximize && 'd-none'}`}
+					sm={12}
+					md={12}
+					lg={12}
+					xl={10}>
+					<Previewer
+						code={code}
+						previwerMaximize={previwerMaximize}
+						setPreviwerMaximize={setPreviwerMaximize}
+					/>
+				</Col>
+			</Row>
+		</Container>
+	);
 };
 
 export default App;
