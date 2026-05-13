@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+    <!-- Smooth Dark Theme Rounded Icon Container Base -->
+    <rect width="90" height="90" x="5" y="5" rx="18" fill="#1e1e24" stroke="#61dafb" stroke-width="3"/>
+    <!-- Universal Core Structural Markdown Typography Layout Symbols -->
+    <path d="M22 32V58M22 32L34 45L46 32M46 32V58" stroke="#61dafb" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M68 32V48M58 42L68 52L78 42" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

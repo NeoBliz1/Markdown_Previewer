@@ -36,6 +36,9 @@ marked.use({
 						`<span class='editorLineNumber'>${i + 1} | </span>${line}`
 				)
 				.join('\n')}</code></pre>`;
+		},
+		heading(token) {
+			return `<h${token.depth}>${token.text}</h${token.depth}>`;
 		}
 	},
 	breaks: true,
@@ -144,6 +147,7 @@ And here. | Okay. | I think we get it.
   - Some are bulleted.
      - With different indentation levels.
         - That look like this.
+
 
 
 1. And there are numbered lists too.
