@@ -1,6 +1,13 @@
 {
 	"short_name": "Neobliz1 Markdown previewr project",
 	"name": "Neobliz1's freeCodeCamp project 'Markdown Previewer'",
+	"icons": [
+		{
+			"src": "favicon.svg",
+			"sizes": "any",
+			"type": "image/svg+xml"
+		}
+	],
 	"start_url": ".",
 	"display": "standalone",
 	"theme_color": "#000000",
