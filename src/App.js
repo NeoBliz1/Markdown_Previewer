@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import DOMPurify from 'dompurify';
-import marked from 'marked';
+import { marked } from 'marked';
 import Prism from 'prismjs';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,35 +10,32 @@ import { faFreeCodeCamp } from '@fortawesome/free-brands-svg-icons';
 
 import './styles.scss';
 
-// set options for marked js parser
-const renderer = new marked.Renderer();
-renderer.code = function (code) {
-	const lang = 'javascript';
-	const highlitedCode = this.options.highlight(code, lang);
+marked.use({
+	renderer: {
+		code(token) {
+			const { text: code, lang: infostring } = token;
+			let lang = infostring || 'javascript';
+			if (lang === 'html') lang = 'markup';
 
-	if (!lang) {
-		return `<pre><code>${code}</code></pre>`;
-	}
+			const prismLang = Prism.languages[lang] || Prism.languages.javascript;
+			const highlightedCode = Prism.highlight(
+				code,
+				prismLang,
+				lang
+			);
 
-	const langClass = 'language-' + lang;
-	return `<pre class="${langClass}"><code class="${langClass}">${highlitedCode}</code></pre>`;
-};
+			if (!infostring) {
+				return `<pre class="line-numbers"><code>${code}</code></pre>`;
+			}
 
-marked.setOptions({
-	renderer,
-	highlight: function (code, lang) {
-		try {
-			// console.log(lang);
-			return Prism.highlight(code, Prism.languages[lang], lang)
+			const langClass = 'language-' + lang;
+			return `<pre class="${langClass} line-numbers"><code class="${langClass}">${highlightedCode
 				.split('\n')
 				.map(
 					(line, i) =>
-						`<span class='editorLineNumber'>${i + 1} | </span>${line}`,
+						`<span class='editorLineNumber'>${i + 1} | </span>${line}`
 				)
-				.join('\n');
-		} catch {
-			// console.log('catch');
-			return code;
+				.join('\n')}</code></pre>`;
 		}
 	},
 	breaks: true,
